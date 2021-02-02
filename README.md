@@ -1,12 +1,12 @@
-#### 18KHMT - Introduction to Software Engineering - Group 01
+## 18KHMT - Introduction to Software Engineering - Group 01
 
-##### Project Name:
+### Project Name:
 Real Estate Website
 
-##### Programming Language:
+### Programming Language:
 Python (Django)
 
-##### Members:
+### Members:
 - 18127081 - Nguyen Minh Duc
 - 18127113 - Vo Van Quoc Huy
 - 18127123 - Nguyen Trung Kien
