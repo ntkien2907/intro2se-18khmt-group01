@@ -2,6 +2,7 @@
 {% block content %}
     {% for post in posts %}
         <article class="media content-section">
+
             <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
             <div class="media-body">
 
@@ -14,9 +15,10 @@
                     {{ post.status }}: {{ post.address }}
                 </a></h4>
 
-                <p class="article-description">{{ post.description }}</p>
-                
+                <p>{{ post.price }}</p>
+
             </div>
+            
         </article>
     {% endfor %}
 {% endblock content %}

@@ -3,12 +3,22 @@
     <article class="media content-section">
         <img class="rounded-circle article-img" src="{{ object.author.profile.image.url }}">
         <div class="media-body">
+
             <div class="article-metadata">
                 <a class="mr-2" href="#">{{ object.author }}</a>
                 <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
             </div>
-            <h4 class="article-address">{{ object.status }}: {{ object.address }}</h4>
-            <p class="article-description">{{ object.description }}</p>
+
+            <h4><a class="article-address" href="{% url 'post-detail' post.id %}">
+                {{ post.status }}: {{ post.address }}
+            </a></h4>
+
+            <ul>
+                <li>{{ post.price }}</li>
+                <li>Description:</li>
+                <p class="article-description">{{ object.description }}</p>
+            </ul>
+
         </div>
     </article>
 {% endblock content %}
