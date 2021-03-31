@@ -35,8 +35,28 @@
                 <li class="list-group-item list-group-item-light">Name:  {{ object.author.username }}</li>
                 <li class="list-group-item list-group-item-light">Email: {{ object.author.email }}</li>
                 <li class="list-group-item list-group-item-light">Phone: {{ object.author.profile.phone_number }}</li>
-                <li class="list-group-item list-group-item-light">{{ object.author.profile.bank }} - {{ object.author.profile.bank_number }}</li>
+                <li class="list-group-item list-group-item-light">| {{ object.author.profile.bank }} | {{ object.author.profile.bank_number }} |</li>
             </ul>
         </div>
     {% endif %}
+    
+    <div class="content-section">
+        <h4>Comments</h4>
+        <hr>
+        {% if not post.comments.all %}
+            No Comments Yet
+            <br/><br/>
+        {% else %}
+            {% for comment in post.comments.all %}
+                <strong>{{ comment.name }} - {{ comment.date_added }}</strong>
+                </br>
+                {{ comment.body }}
+                <hr>
+            {% endfor %}
+        {% endif %}
+        {% if user.is_authenticated and object.author != user %}
+            <a class="btn btn-outline-info mb-4" href="{% url 'comment-add' post.pk %}">Add Comment</a>
+        {% endif %}
+    </div>
+
 {% endblock content %}

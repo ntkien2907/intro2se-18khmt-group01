@@ -5,7 +5,7 @@ Administrator:
 Problems & Solutions
 * operationalerror-no-such-column-django
 - Delete all the migration records from your app's migration directory. These are files 
-named 0001_,0002_,0003_ etc. Be careful as to not delete the _init__.py file.
+named 0001_,0002_,0003_ etc. Be careful as to not delete the __init__.py file.
 - Delete the db.sqlite3 file. It will be regenerated later.
 - Run the following commands:
     + python manage.py makemigrations

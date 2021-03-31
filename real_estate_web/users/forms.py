@@ -22,4 +22,3 @@ class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['phone_number', 'bank', 'bank_number', 'image']
-
