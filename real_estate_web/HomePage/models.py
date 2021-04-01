@@ -12,8 +12,11 @@ class Post(models.Model):
     description = models.TextField()
     date_posted = models.DateTimeField(default=timezone.now)
 
-    # create foreign key from post to user
     author = models.ForeignKey(User, on_delete=models.CASCADE)
+    likes = models.ManyToManyField(User, related_name="blog_posts")
+
+    def total_likes(self):
+        return self.likes.count()
 
     def __str__(self):
         return self.address

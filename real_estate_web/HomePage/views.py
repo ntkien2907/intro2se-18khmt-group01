@@ -3,6 +3,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Post, Comment
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 
 def home(request):
@@ -34,6 +36,19 @@ class UserPostListView(ListView):
 
 class PostDetailView(DetailView):
     model = Post
+    def get_context_data(self, *args, **kwargs):
+        context = super(PostDetailView, self).get_context_data(*args, **kwargs)
+
+        stuff = get_object_or_404(Post, id=self.kwargs['pk'])
+        total_likes = stuff.total_likes()
+
+        liked = False
+        if stuff.likes.filter(id=self.request.user.id).exists():
+            liked = True
+
+        context["total_likes"] = total_likes
+        context["liked"] = liked
+        return context
 
 
 class PostCreateView(LoginRequiredMixin, CreateView):
@@ -80,3 +95,14 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
 def about(request):
     return render(request, 'HomePage/about.html', {'title': 'About'})
 
+
+def LikeView(request, pk):
+    post = get_object_or_404(Post, id=request.POST.get('post_id'))
+    liked = False
+    if post.likes.filter(id=request.user.id).exists():
+        post.likes.remove(request.user)
+        liked = False
+    else:
+        post.likes.add(request.user)
+        liked = True
+    return HttpResponseRedirect(reverse('post-detail', args=[str(pk)]))
