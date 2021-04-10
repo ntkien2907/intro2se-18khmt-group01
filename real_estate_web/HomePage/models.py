@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
-
+from django.template.defaultfilters import slugify
 STATUS = (('FOR SALE', 'For Sale'), ('FOR RENT', 'For Rent'))
 
 class Post(models.Model):
@@ -33,3 +33,16 @@ class Comment(models.Model):
 
     def __str__(self):
         return '%s - %s' % (self.post.address, self.name)
+
+def get_image_filename(instance, filename):
+    title = instance.post.address
+    slug = slugify(title)
+    return "post_images/%s-%s" % (slug, filename) 
+
+class PostImage(models.Model):
+    post = models.ForeignKey(Post, default=None, on_delete=models.CASCADE)
+    image = models.FileField(upload_to=get_image_filename, verbose_name='Image')
+
+    def __str__(self):
+        return self.post.title
+
