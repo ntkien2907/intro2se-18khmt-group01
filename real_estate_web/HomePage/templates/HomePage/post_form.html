@@ -6,13 +6,14 @@
             {% csrf_token %}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">HOUSE FOR SALE/RENT</legend>
-                {{ postForm|crispy }}
+                {{ form|crispy }} 
             </fieldset>
             {{ formset.management_form }}
             {% for form in formset %}
                 {{ form }}
             {% endfor %}
             <div class="form-group">
+                <br/>
                 <button class="btn btn-outline-info" type="submit">Post</button>
             </div>
         </form>

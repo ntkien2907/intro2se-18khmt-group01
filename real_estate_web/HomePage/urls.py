@@ -4,6 +4,7 @@ from django.conf.urls.static import static
 from .views import (
     PostListView, 
     PostDetailView, 
+    PostCreateView, 
     PostUpdateView, 
     PostDeleteView, 
     UserPostListView, 

@@ -1,6 +1,6 @@
 Administrator:
-- ntkien
-- 18khmthcmus
+- usrername: admin01
+- password : 18khmthcmus
 
 Problems & Solutions
 * operationalerror-no-such-column-django

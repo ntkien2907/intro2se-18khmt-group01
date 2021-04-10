@@ -54,6 +54,10 @@ a.article-address:hover {
   width: 65px;
   margin-right: 16px;
 }
+
+.article-content-img {
+  height: 300px;
+}
   
 .article-metadata {
   padding-bottom: 1px;

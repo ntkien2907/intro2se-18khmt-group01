@@ -9,6 +9,8 @@ from django import forms
 from django.contrib.auth.decorators import login_required
 from django.forms import modelformset_factory
 from django.contrib import messages
+
+
 def home(request):
     context = {
         'posts': Post.objects.all()
@@ -47,17 +49,18 @@ class PostDetailView(DetailView):
         liked = False
         if stuff.likes.filter(id=self.request.user.id).exists():
             liked = True
+        
         context["photos"]= PostImage.objects.filter(post=stuff)
         context["total_likes"] = total_likes
         context["liked"] = liked
         return context
+
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     fields = ['status', 'price', 'address', 'description']
 
     def form_valid(self, form):
-
         form.instance.author = self.request.user
         return super().form_valid(form)
 
@@ -109,14 +112,14 @@ def LikeView(request, pk):
         liked = True
     return HttpResponseRedirect(reverse('post-detail', args=[str(pk)]))
 
-class PostForm(forms.ModelForm):
 
+class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ('status', 'price', 'address', 'description')
+        fields = ['status', 'price', 'address', 'description']
+
 
 class PostImageForm(forms.ModelForm):
-
     class Meta:
         model = PostImage
         fields= ('image',)
@@ -124,17 +127,16 @@ class PostImageForm(forms.ModelForm):
             'image': forms.FileInput(attrs={'multiple':True,}),
         }
 
+
 @login_required
 def create_new_post(request):
-    ImageFormSet = modelformset_factory(PostImage,
-                                        form=PostImageForm, extra=10)
-    #'extra' means the number of photos that you can upload   ^
+    ImageFormSet = modelformset_factory(PostImage, form=PostImageForm, extra=10)
+    #'extra' means the number of photos that you can upload
     if request.method == 'POST':
-        postForm = PostForm(request.POST)
-        formset =  ImageFormSet(request.POST, request.FILES,
-                               queryset=PostImage.objects.none())
-        if postForm.is_valid() and formset.is_valid():
-            post_form = postForm.save(commit=False)
+        form = PostForm(request.POST)
+        formset =  ImageFormSet(request.POST, request.FILES, queryset=PostImage.objects.none())
+        if form.is_valid() and formset.is_valid():
+            post_form = form.save(commit=False)
             post_form.author = request.user
             post_form.save()
             for form in formset.cleaned_data:
@@ -145,9 +147,14 @@ def create_new_post(request):
             messages.success(request, "Success, check it out on the home page!")
             return HttpResponseRedirect("/")
         else:
-            print(postForm.errors, formset.errors)
+            print(form.errors, formset.errors)
     else:
-        postForm = PostForm()
+        form = PostForm()
         formset = ImageFormSet(queryset=PostImage.objects.none())
-    return render(request, 'HomePage/post_form.html',
-                  {'postForm': postForm, 'formset': formset})
+
+    context = {
+        'form': form, 
+        'formset': formset
+    }
+
+    return render(request, 'HomePage/post_form.html', context)
