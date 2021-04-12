@@ -25,3 +25,4 @@ urlpatterns = [
     path('like/<int:pk>', LikeView, name='post-like'),
     path('post/<int:pk>/comment/', CommentCreateView.as_view(), name='comment-add'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

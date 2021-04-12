@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView, CreateView
@@ -11,19 +12,19 @@ from django.forms import modelformset_factory
 from django.contrib import messages
 
 
-def home(request):
-    context = {
-        'posts': Post.objects.all()
-    }
-    return render(request, 'HomePage/home.html', context)
-
-
 class PostListView(ListView):
     model = Post
     template_name = 'HomePage/home.html' # <app>/<model>_<viewtype>.html
     context_object_name = 'posts'
-    ordering = ['-date_posted']
     paginate_by = 2
+    
+    def get_queryset(self):
+        search_post = self.request.GET.get('search')
+        if search_post:
+            posts = Post.objects.filter(Q(address__icontains=search_post) | Q(description__icontains=search_post))
+        else:
+            posts = Post.objects.all()
+        return posts.order_by('-date_posted')
 
 
 class UserPostListView(ListView):

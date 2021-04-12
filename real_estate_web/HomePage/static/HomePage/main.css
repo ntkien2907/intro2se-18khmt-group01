@@ -86,3 +86,12 @@ a.article-address:hover {
 .account-heading {
   font-size: 2.5rem;
 }
+
+.search-bar {
+  max-width: 500px;
+  width: 100%;
+}
+
+form {
+  width: 100%;
+}
