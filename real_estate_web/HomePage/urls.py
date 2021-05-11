@@ -9,6 +9,7 @@ from .views import (
     PostDeleteView, 
     UserPostListView, 
     CommentCreateView, 
+    TagIndexView, #change
     LikeView
 )
 from . import views
@@ -17,6 +18,9 @@ from . import views
 urlpatterns = [
     path('', PostListView.as_view(), name='home-page'),
     path('user/<str:username>', UserPostListView.as_view(), name='user-posts'),
+    
+    path('tags/<slug:tag_slug>/', TagIndexView.as_view(), name='tag-posts'), #change
+    
     path('post/<int:pk>/', PostDetailView.as_view(), name='post-detail'),
     path('post/new/', views.create_new_post, name='post-create'),
     path('post/<int:pk>/update/', PostUpdateView.as_view(), name='post-update'),

@@ -23,8 +23,15 @@
                 <li>{{ post.price }}</li>
                 <li>Description:</li>
                 <p class="article-description">{{ object.description }}</p>
+                
             </ul>
-            
+            <p>    
+                <div style="display:flex">
+                    {% for tag in post.tags.all %}
+                    <a href="{% url 'tag-posts' tag.slug %}" class="mr-1 badge badge-info">#{{ tag }}</a>
+                    {% endfor %}
+                </div>
+            </p>
             <!--Carousel Wrapper-->
             <div id="carousel-example-1z" class="carousel slide carousel-fade" data-ride="carousel">
                 <!--Indicators-->
@@ -57,7 +64,7 @@
             </div>
             <br/>
             <iframe
-                width="600"
+                width="100%"
                 height="200"
                 style="border:0"
                 loading="lazy"

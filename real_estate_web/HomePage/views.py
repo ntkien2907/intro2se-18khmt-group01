@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
+from django.template.defaultfilters import title
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView, CreateView
 from .models import Post, Comment, PostImage
 from django.http import HttpResponseRedirect
@@ -10,9 +11,17 @@ from django import forms
 from django.contrib.auth.decorators import login_required
 from django.forms import modelformset_factory
 from django.contrib import messages
+from django.shortcuts import render, reverse
+from taggit.models import Tag
+from .models import *
 
+class TagMixin(object):
+          def get_context_data(self, **kwargs):
+              context = super(TagMixin, self).get_context_data(**kwargs)
+              context['tags'] = Tag.objects.all()
+              return context
 
-class PostListView(ListView):
+class PostListView(TagMixin, ListView):
     model = Post
     template_name = 'HomePage/home.html' # <app>/<model>_<viewtype>.html
     context_object_name = 'posts'
@@ -25,6 +34,15 @@ class PostListView(ListView):
         else:
             posts = Post.objects.all()
         return posts.order_by('-date_posted')
+
+class TagIndexView(TagMixin, ListView):
+    model = Post
+    template_name = 'HomePage/tag_posts.html'
+    context_object_name = 'posts'
+
+    def get_queryset(self):
+        tagged = get_object_or_404(User, tags__slug=self.kwargs.get('tag_slug'))
+        return Post.objects.filter(tags=tagged).order_by('-date_posted')
 
 
 class UserPostListView(ListView):
@@ -59,7 +77,7 @@ class PostDetailView(DetailView):
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
-    fields = ['status', 'price', 'address', 'description']
+    fields = ['status', 'price', 'address', 'description', 'tags']
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -68,7 +86,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
-    fields = ['status', 'price', 'address', 'description']
+    fields = ['status', 'price', 'address', 'description', 'tags']
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -117,7 +135,7 @@ def LikeView(request, pk):
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['status', 'price', 'address', 'description']
+        fields = ['status', 'price', 'address', 'description', 'tags']
 
 
 class PostImageForm(forms.ModelForm):
@@ -139,6 +157,8 @@ def create_new_post(request):
         if form.is_valid() and formset.is_valid():
             post_form = form.save(commit=False)
             post_form.author = request.user
+            post_form.slug = slugify(title)
+            tag = get_object_or_404(Tag, slug=slug)
             post_form.save()
             for form in formset.cleaned_data:
                 if form:
@@ -152,10 +172,10 @@ def create_new_post(request):
     else:
         form = PostForm()
         formset = ImageFormSet(queryset=PostImage.objects.none())
-
+    
     context = {
         'form': form, 
-        'formset': formset
+        'formset': formset,
     }
 
     return render(request, 'HomePage/post_form.html', context)
