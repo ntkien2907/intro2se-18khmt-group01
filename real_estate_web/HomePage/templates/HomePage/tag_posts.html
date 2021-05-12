@@ -1,10 +1,11 @@
 {% extends "HomePage/base.html" %}
 {% block content %}
-    <h2>{{post.title}}</h2>
-    {% for tag in post.tags.all %}
-    <a href="#" class="badge badge-info" >{{ tag }}</a>
-    {% endfor %}
-
+    <style>
+        p.uppercase {
+        text-transform: uppercase;
+        }
+    </style>
+    <h3 class="mb-3">Tags: <span style="text-transform: uppercase;">{{ view.kwargs.tag_slug }} ({{ page_obj.paginator.count }})</span></h3>
     {% for post in posts %}
         <article class="media content-section">
 
@@ -12,7 +13,7 @@
             <div class="media-body">
 
                 <div class="article-metadata">
-                    <a class="mr-2" href="{% url 'tag-posts' tag.slug %}">{{ post.tags }}</a>
+                    <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
                     <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
                 </div>
 
@@ -22,10 +23,20 @@
 
                 <p>{{ post.price }}</p>
 
+                <div style="display:flex">
+                    {% for tag in post.tags.all %}
+                    <a href="{% url 'tag-posts' tag.slug %}" class="mr-1 badge badge-info">#<span style="text-transform: uppercase;">{{tag}}</span></a>
+                    {% endfor %}
+                </div>
             </div>
             
         </article>
-    {% endfor %} 
+    {% endfor %}
+    <!-- <h5>Tag post: </h5>
+    <div style="display:flex"></div>
+    {% for tag in tags %}
+        <a href="{% url 'tag-posts' tag.slug %}" class="mr-1 badge badge-info">#<span style="text-transform: uppercase;">{{tag}}</span></a>
+    {% endfor %} -->
     
     {% if is_paginated %}
         {% if page_obj.has_previous %}

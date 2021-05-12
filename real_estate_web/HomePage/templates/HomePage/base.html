@@ -75,6 +75,16 @@
                     </ul>
                     <br/>
                 </div>
+                <div class="content-section">
+                    <h4>Tags</h4>
+                   
+                    <ul class="list-group">
+                        {% for tag in tags %}
+                            <a href="{% url 'tag-posts' tag.slug %}" ><span class="mr-3 badge badge-info" style="text-transform: uppercase;">#{{tag}}</span></a>
+                        {% endfor %}
+                    </ul>
+  
+                </div>
             </div>
         </div>
     </main>

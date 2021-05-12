@@ -10,7 +10,8 @@ from .views import (
     UserPostListView, 
     CommentCreateView, 
     TagIndexView, #change
-    LikeView
+    LikeView,
+    # tagged,
 )
 from . import views
 
@@ -20,6 +21,7 @@ urlpatterns = [
     path('user/<str:username>', UserPostListView.as_view(), name='user-posts'),
     
     path('tags/<slug:tag_slug>/', TagIndexView.as_view(), name='tag-posts'), #change
+    # path('tags/<slug:tag_slug>/', tagged, name='tag-posts'),
     
     path('post/<int:pk>/', PostDetailView.as_view(), name='post-detail'),
     path('post/new/', views.create_new_post, name='post-create'),

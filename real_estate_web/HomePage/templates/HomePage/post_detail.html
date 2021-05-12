@@ -28,7 +28,7 @@
             <p>    
                 <div style="display:flex">
                     {% for tag in post.tags.all %}
-                    <a href="{% url 'tag-posts' tag.slug %}" class="mr-1 badge badge-info">#{{ tag }}</a>
+                    <a href="{% url 'tag-posts' tag.slug %}" class="mr-1 badge badge-info">#<span style="text-transform: uppercase;">{{tag}}</span></a>
                     {% endfor %}
                 </div>
             </p>
@@ -65,7 +65,7 @@
             <br/>
             <iframe
                 width="100%"
-                height="200"
+                height="300"
                 style="border:0"
                 loading="lazy"
                 allowfullscreen
