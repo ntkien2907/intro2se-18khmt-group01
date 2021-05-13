@@ -1,9 +1,97 @@
-{% extends "HomePage/base.html" %}
 {% load static %}
-{% block content %}
-    <h3>About Page</h3>
-    <p>CoDat is a website created by Group01 of 18CLC-KHMT in Intro2SE course of FIT-HCMUS. 
-    We hope this website will play an important role in connecting people who demands of 
-    selling or buying houses.</p>
-    <img src="{% static 'HomePage/images/PinkStork.jpg' %}">
-{% endblock content %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'HomePage/main.css' %}">
+
+    <style>
+        .image { display: inline-block;}
+    </style>
+    
+    {% if title %}
+        <title>CoDat - {{ title }}</title>
+    {% else %}
+        <title>CoDat</title>
+    {% endif %}
+
+</head>
+
+<body>
+    <header class="site-header">
+        <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+            <div class="container">
+                <a class="navbar-brand mr-4" href="{% url 'home-page' %}">CoDat</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarToggle">
+                    <div class="navbar-nav mr-auto">
+                        <a class="nav-item nav-link" href="{% url 'home-page' %}">Home</a>
+                        <a class="nav-item nav-link" href="{% url 'home-about' %}">About</a>
+                    </div>
+                    <!-- Search Bar -->
+                    <div class="search-bar mr-sm-2">
+                        <form action="{% url 'home-page' %}">
+                            <input class="form-control" type="search" placeholder="Search..." aria-label="Search" name="search">
+                        </form>
+                    </div>
+                    <!-- Navbar Right Side -->
+                    <div class="navbar-nav">
+                        {% if user.is_authenticated %}
+                            <a class="nav-item nav-link" href="{% url 'post-create' %}">New Post</a>
+                            <a class="nav-item nav-link" href="{% url 'profile' %}">{{ user.username }}</a>
+                            <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>   
+                        {% else %}
+                            <a class="nav-item nav-link" href="{% url 'login' %}?next={{request.path}}">Login</a>
+                            <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main role="main" class="container">
+        
+        <h3>About Page</h3>
+        <p>CoDat is a website created by Group01 of 18CLC-KHMT in Intro2SE course of FIT-HCMUS. We hope this 
+        website will play an important role in connecting people who demands of selling or buying houses.</p>
+        <img src="{% static 'HomePage/images/PinkStork.jpg' %}">
+        <br><br><hr>
+
+        <h3>Members</h3>
+        <div class="row">
+            <div class="column">
+                <img src="{% static 'HomePage/images/Duc.jpg' %}" alt="Duc" style="border-radius:30%">
+                <p>Minh-Duc Nguyen</p>
+            </div>
+            <div class="column">
+                <img src="{% static 'HomePage/images/Huy.jpg' %}" alt="Huy" style="border-radius:30%">
+                <p>Quoc-Huy Vo-Van</p>
+            </div>
+            <div class="column">
+                <img src="{% static 'HomePage/images/Kien.jpg' %}" alt="Kien" style="border-radius:30%">
+                <p>Trung-Kien Nguyen</p>
+            </div>
+            <div class="column">
+                <img src="{% static 'HomePage/images/Tai.jpg' %}" alt="Tai" style="border-radius:30%">
+                <p>Quoc-Tai Nguyen-Le</p>
+            </div>
+            <div class="column">
+                <img src="{% static 'HomePage/images/Trien.jpg' %}" alt="Trien" style="border-radius:30%">
+                <p>Quy-Trien Nguyen</p>
+            </div>
+        </div>
+        <hr>
+
+    </main>
+</body>
+
+</html>

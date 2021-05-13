@@ -15,18 +15,19 @@ from django.shortcuts import render, reverse
 from taggit.models import Tag
 from .models import *
 
+
 class TagMixin(object):
     def get_context_data(self, **kwargs):
         context = super(TagMixin, self).get_context_data(**kwargs)
         context['tags'] = Tag.objects.all()
         return context
 
+
 class PostListView(TagMixin, ListView):
     model = Post
     template_name = 'HomePage/home.html' # <app>/<model>_<viewtype>.html
     context_object_name = 'posts'
-    paginate_by = 2
-    common_tags = Post.tags.most_common()
+    paginate_by = 3
     def get_queryset(self):
         search_post = self.request.GET.get('search')
         if search_post:
@@ -35,22 +36,23 @@ class PostListView(TagMixin, ListView):
             posts = Post.objects.all()
         return posts.order_by('-date_posted')
 
+
 class TagIndexView(TagMixin, ListView):
     model = Post
     template_name = 'HomePage/tag_posts.html'
     context_object_name = 'posts'
     ordering = ['-date_posted']
-    paginate_by = 2
-    common_tags = Post.tags.most_common()
+    paginate_by = 3
     def get_queryset(self):
         return Post.objects.filter(tags__slug=self.kwargs.get('tag_slug'))
+
 
 class UserPostListView(ListView):
     model = Post
     template_name = 'HomePage/user_posts.html' # <app>/<model>_<viewtype>.html
     context_object_name = 'posts'
     ordering = ['-date_posted']
-    paginate_by = 2
+    paginate_by = 3
 
     def get_queryset(self):
         user = get_object_or_404(User, username=self.kwargs.get('username'))

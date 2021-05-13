@@ -2,7 +2,6 @@
 {% block content %}
     {% for post in posts %}
         <article class="media content-section">
-
             <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
             <div class="media-body">
 
@@ -11,18 +10,17 @@
                     <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
                 </div>
 
-                <h4><a class="article-address" href="{% url 'post-detail' post.id %}">
+                <h5><a class="article-address" href="{% url 'post-detail' post.id %}">
                     {{ post.status }}: {{ post.address }}
-                </a></h4>
+                </a></h5>
 
                 <p>{{ post.price }}</p>
 
-                <div style="display:flex">
-                    {% for tag in post.tags.all %}
-                    <a href="{% url 'tag-posts' tag.slug %}" class="mr-1 badge badge-info">#<span style="text-transform: uppercase;">{{tag}}</span></a>
-                    
-                    {% endfor %}
-                </div>
+                <div style="display:flex"></div>
+                {% for tag in post.tags.all %}
+                    <a href="{% url 'tag-posts' tag.slug %}" class="mr-1 badge badge-info">#{{ tag }}</a>
+                {% endfor %}
+    
             </div>
         </article>
     {% endfor %}
@@ -45,6 +43,6 @@
             <a class="btn btn-outline-secondary mb-4" href="?page={{ page_obj.next_page_number}}">Next</a>
             <a class="btn btn-outline-secondary mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
         {% endif %}
-        
     {% endif %}
+    
 {% endblock content %}

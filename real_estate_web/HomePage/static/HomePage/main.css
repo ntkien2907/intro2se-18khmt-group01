@@ -95,3 +95,14 @@ a.article-address:hover {
 form {
   width: 100%;
 }
+
+.column {
+  float: left;
+  width: 15%;
+  padding: 10px;
+}
+
+.row::after {
+  clear: both;
+  display: table;
+}

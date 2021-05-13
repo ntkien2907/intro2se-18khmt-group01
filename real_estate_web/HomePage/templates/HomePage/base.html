@@ -55,7 +55,7 @@
 
     <main role="main" class="container">
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-9">
                 {% if messages %}
                     {% for message in messages %}
                         <div class="alert alert-{{ message.tags }}">
@@ -65,25 +65,18 @@
                 {% endif %}
                 {% block content %}{% endblock %}
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="content-section">
-                    <h4>Current Time</h4>
-                    <br/>                    
-                    <ul class="list-group">
-                        <li class="list-group-item list-group-item-light">Date: <span id="date"></span></li>
-                        <li class="list-group-item list-group-item-light">Time: <span id="time"></li>
-                    </ul>
-                    <br/>
+                    <h5>Tags</h5>
+                    <div style="display:flex"></div>
+                    {% for tag in tags %}
+                        <a href="{% url 'tag-posts' tag.slug %}" class="mr-1 badge badge-info">#{{ tag }}</a>
+                    {% endfor %}
                 </div>
                 <div class="content-section">
-                    <h4>Tags</h4>
-                   
-                    <ul class="list-group">
-                        {% for tag in tags %}
-                            <a href="{% url 'tag-posts' tag.slug %}" ><span class="mr-3 badge badge-info" style="text-transform: uppercase;">#{{tag}}</span></a>
-                        {% endfor %}
-                    </ul>
-  
+                    <h5>Current Time</h5>
+                    <li>Date: <span id="date"></span></li>
+                    <li>Time: <span id="time"></li>
                 </div>
             </div>
         </div>

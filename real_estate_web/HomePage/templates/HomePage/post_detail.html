@@ -15,23 +15,23 @@
                 {% endif %}
             </div>
 
-            <h4><a class="article-address" href="{% url 'post-detail' post.id %}">
+            <h5><a class="article-address" href="{% url 'post-detail' post.id %}">
                 {{ post.status }}: {{ post.address }}
-            </a></h4>
+            </a></h5>
 
             <ul>
                 <li>{{ post.price }}</li>
                 <li>Description:</li>
                 <p class="article-description">{{ object.description }}</p>
-                
             </ul>
-            <p>    
-                <div style="display:flex">
-                    {% for tag in post.tags.all %}
-                    <a href="{% url 'tag-posts' tag.slug %}" class="mr-1 badge badge-info">#<span style="text-transform: uppercase;">{{tag}}</span></a>
-                    {% endfor %}
-                </div>
-            </p>
+
+            <div style="display:flex">
+                {% for tag in post.tags.all %}
+                    <a href="{% url 'tag-posts' tag.slug %}" class="mr-1 badge badge-info">#{{ tag }}</a>
+                {% endfor %}
+            </div>
+            <br/>
+
             <!--Carousel Wrapper-->
             <div id="carousel-example-1z" class="carousel slide carousel-fade" data-ride="carousel">
                 <!--Indicators-->
@@ -63,6 +63,7 @@
                 </div>
             </div>
             <br/>
+            
             <iframe
                 width="100%"
                 height="300"
@@ -92,7 +93,7 @@
     
     {% if user.is_authenticated %}
         <div class="content-section">
-            <h4>Detailed Information</h4>
+            <h5>Detailed Information</h5>
             <ul class="list-group">
                 <li class="list-group-item list-group-item-light">Name:  {{ object.author.username }}</li>
                 <li class="list-group-item list-group-item-light">Email: {{ object.author.email }}</li>
@@ -103,7 +104,7 @@
     {% endif %}
     
     <div class="content-section">
-        <h4>Comments</h4>
+        <h5>Comments</h5>
         <hr>
         {% if not post.comments.all %}
             No Comments Yet
