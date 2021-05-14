@@ -18,11 +18,11 @@
 
                 <p>{{ post.price }}</p>
 
-                <div style="display:flex">
-                    {% for tag in post.tags.all %}
-                        <a href="{% url 'tag-posts' tag.slug %}" class="mr-1 badge badge-info">#<span style="text-transform: uppercase;">{{tag}}</span></a>
-                    {% endfor %}
-                </div>
+                <div style="display:flex"></div>
+                {% for tag in post.tags.all %}
+                    <a href="{% url 'tag-posts' tag.slug %}" class="mr-1 badge badge-info">#{{ tag }}</a>
+                {% endfor %}
+                
             </div>
             
         </article>

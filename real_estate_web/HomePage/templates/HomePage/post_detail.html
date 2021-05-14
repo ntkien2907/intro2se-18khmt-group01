@@ -25,12 +25,10 @@
                 <p class="article-description">{{ object.description }}</p>
             </ul>
 
-            <div style="display:flex">
-                {% for tag in post.tags.all %}
-                    <a href="{% url 'tag-posts' tag.slug %}" class="mr-1 badge badge-info">#{{ tag }}</a>
-                {% endfor %}
-            </div>
-            <br/>
+            <div style="display:flex"></div>
+            {% for tag in post.tags.all %}
+                <a href="{% url 'tag-posts' tag.slug %}" class="mr-1 badge badge-info">#{{ tag }}</a>
+            {% endfor %}        
 
             <!--Carousel Wrapper-->
             <div id="carousel-example-1z" class="carousel slide carousel-fade" data-ride="carousel">

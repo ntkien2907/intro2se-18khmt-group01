@@ -2,7 +2,6 @@ from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
-from django.template.defaultfilters import title
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView, CreateView
 from .models import Post, Comment, PostImage
 from django.http import HttpResponseRedirect
@@ -47,7 +46,7 @@ class TagIndexView(TagMixin, ListView):
         return Post.objects.filter(tags__slug=self.kwargs.get('tag_slug'))
 
 
-class UserPostListView(ListView):
+class UserPostListView(TagMixin, ListView):
     model = Post
     template_name = 'HomePage/user_posts.html' # <app>/<model>_<viewtype>.html
     context_object_name = 'posts'
@@ -59,7 +58,7 @@ class UserPostListView(ListView):
         return Post.objects.filter(author=user).order_by('-date_posted')
 
 
-class PostDetailView(DetailView):
+class PostDetailView(TagMixin, DetailView):
     model = Post
     def get_context_data(self, *args, **kwargs):
         context = super(PostDetailView, self).get_context_data(*args, **kwargs)
@@ -159,8 +158,6 @@ def create_new_post(request):
         if form.is_valid() and formset.is_valid():
             post_form = form.save(commit=False)
             post_form.author = request.user
-            post_form.slug = slugify(title)
-            tag = get_object_or_404(Tag, slug=slug)
             post_form.save()
             for form in formset.cleaned_data:
                 if form:

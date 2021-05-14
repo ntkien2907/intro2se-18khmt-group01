@@ -11,12 +11,12 @@ STATUS = (('FOR SALE', 'For Sale'), ('FOR RENT', 'For Rent'))
 
 class Post(models.Model):
     status = models.CharField(max_length=10, choices=STATUS)
-    price = models.CharField(max_length=20)
+    price = models.CharField(max_length=40)
     address = models.CharField(max_length=100)
     description = models.TextField()
     date_posted = models.DateTimeField(default=timezone.now)
     
-    tags = TaggableManager()
+    tags = TaggableManager(blank=True)
     
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     likes = models.ManyToManyField(User, related_name="blog_posts")
