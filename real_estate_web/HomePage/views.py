@@ -76,7 +76,7 @@ class PostDetailView(TagMixin, DetailView):
         return context
 
 
-class PostCreateView(LoginRequiredMixin, CreateView):
+class PostCreateView(TagMixin, LoginRequiredMixin, CreateView):
     model = Post
     fields = ['status', 'price', 'address', 'description', 'tags']
 
@@ -85,7 +85,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class PostUpdateView(TagMixin, LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
     fields = ['status', 'price', 'address', 'description', 'tags']
 
@@ -98,7 +98,7 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return self.request.user == post.author
 
 
-class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+class PostDeleteView(TagMixin, LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
     success_url = '/'
 
@@ -107,7 +107,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return self.request.user == post.author
 
 
-class CommentCreateView(LoginRequiredMixin, CreateView):
+class CommentCreateView(TagMixin, LoginRequiredMixin, CreateView):
     model = Comment
     success_url = '/'
     fields = ['name', 'body']
