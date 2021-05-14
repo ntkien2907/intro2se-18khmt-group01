@@ -52,4 +52,4 @@ class PostImage(models.Model):
     image = models.FileField(upload_to=get_image_filename, verbose_name='Image')
 
     def __str__(self):
-        return self.post.title
+        return self.post.address
