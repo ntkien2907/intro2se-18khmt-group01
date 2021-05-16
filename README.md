@@ -40,7 +40,7 @@ The project is tested on Windows 10 - 64bit
     --> *pip install django-taggit*
 
 #### 2. Run the website
-* Open CMD and change the current path to project folder which includes manage.py file
+* Open CMD and change the current path to project folder which includes **manage.py** file
 
 * Enter the following line
     
