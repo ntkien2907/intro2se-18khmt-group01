@@ -54,4 +54,4 @@ The project is tested on Windows 10 - 64bit
     
     --> *http://localhost:8000/admin*
 
-* All usernames and passwords for testing is in note.txt file
+* All usernames and passwords for testing is in **Note.txt** file
