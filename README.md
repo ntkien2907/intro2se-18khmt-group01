@@ -16,7 +16,7 @@ Python (Django)
 ### How to run the program?
 The project is tested on Windows 10 - 64bit
 
-#### 1. Install these pakages first:
+#### 1. Install these packages:
 * Python 3.6 (or higher)
 
 * Django 3.1.5
