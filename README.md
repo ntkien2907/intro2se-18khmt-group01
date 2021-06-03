@@ -16,7 +16,7 @@ Python (Django)
 ### How to run the program?
 The project is tested on Windows 10 - 64bit
 
-#### 1. Install these packages:
+#### 1. Install these packages
 * Python 3.6 (or higher)
 
 * Django 3.1.5
@@ -45,7 +45,7 @@ The project is tested on Windows 10 - 64bit
     ```
 
 #### 2. Run the website
-* Open CMD and change the current path to project folder which includes **manage.py** file
+* Open CMD and change the path to project folder which includes **manage.py** file
 
 * Enter the following line
     ```
